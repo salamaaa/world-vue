@@ -11,6 +11,25 @@
       <div class="user-profile__follower-count">
         <strong>Followers : {{ followers }}</strong>
       </div>
+      <form class="user-profile__create-tweet" @submit.prevent="createNewTweet">
+        <label for="newTweet"><strong>New Tweet</strong></label>
+        <textarea id="newTweet"
+                  rows="4"
+                  v-model="newTweetContent"/>
+
+        <div class="user-profile__create-tweet-type">
+          <label for="tweetType"><strong>Type: </strong></label>
+          <select id="tweetType" v-model="selectedTweetType">
+            <option :value="item.value"
+                    v-for="(item,index) in tweetTypes"
+                    :key="index">
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
+        <button>Tweet</button>
+      </form>
+
     </div>
     <div class="user-profile__tweets-wrapper">
       <TweetItem v-for="tweet in user.tweets"
@@ -30,6 +49,13 @@ export default {
   components: {TweetItem},
   data() {
     return {
+      newTweetContent: '',
+      selectedTweetType: 'instant',
+
+      tweetTypes: [
+        {value: 'draft', name: 'Tweet Draft'},
+        {value: 'instant', name: 'Tweet Instant'}
+      ],
       followers: 0,
       user: {
         id: 1,
@@ -57,6 +83,14 @@ export default {
     },
     toggleFav(id) {
       console.log(`Favourite tweet # ${id}`);
+    },
+    createNewTweet(){
+      if (this.newTweetContent && this.selectedTweetType !== 'draft'){
+        this.user.tweets.unshift({
+          id:this.user.tweets.length,
+          content: this.newTweetContent
+        })
+      }
     }
   },
 
@@ -111,5 +145,17 @@ h1 {
 .user-profile__tweets-wrapper {
   display: grid;
   grid-gap: 10px;
+}
+
+.user-profile__create-tweet {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  border-top: 1px solid #dfe3e8;
+}
+
+.user-profile__create-tweet-type {
+  padding-top: 10px ;
+  padding-bottom: 10px ;
 }
 </style>
