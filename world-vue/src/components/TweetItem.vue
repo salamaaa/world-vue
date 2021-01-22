@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .tweet-item {
   padding: 20px;
   background-color: white;
@@ -41,15 +41,19 @@ export default {
   border: 1px solid #dfe3e8;
   cursor: pointer;
   transition: all 0.25s ease;
-}
 
-.tweet-item:hover {
+  &:hover {
   transform: scale(1.1, 1.1);
 }
 
-.tweet-item__user {
-  font-weight: bold;
+  .tweet-item__user {
+    font-weight: bold;
+  }
+
 }
+
+
+
 
 
 </style>

@@ -84,12 +84,13 @@ export default {
     toggleFav(id) {
       console.log(`Favourite tweet # ${id}`);
     },
-    createNewTweet(){
-      if (this.newTweetContent && this.selectedTweetType !== 'draft'){
+    createNewTweet() {
+      if (this.newTweetContent && this.selectedTweetType !== 'draft') {
         this.user.tweets.unshift({
-          id:this.user.tweets.length,
+          id: this.user.tweets.length,
           content: this.newTweetContent
         })
+        this.newTweetContent = '';
       }
     }
   },
@@ -111,51 +112,54 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .user-profile {
   display: grid;
   grid-template-columns: 1fr 3fr;
   width: 100%;
   padding: 50px 5%;
-}
 
-.user-profile__user-panel {
-  display: flex;
-  flex-direction: column;
-  margin-right: 50px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 5px;
-  border: 1px solid #dfe3e8;
-}
+  .user-profile__user-panel {
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #dfe3e8;
 
-h1 {
-  margin-bottom: 0;
-}
+    h1 {
+      margin-bottom: 0;
+    }
 
-.user-profile__admin-badge {
-  background-color: rebeccapurple;
-  color: white;
-  margin-right: auto;
-  border-radius: 5px;
-  padding: 0 10px;
-  font-weight: bold;
+    .user-profile__admin-badge {
+      background-color: rebeccapurple;
+      color: white;
+      margin-right: auto;
+      border-radius: 5px;
+      padding: 0 10px;
+      font-weight: bold;
+    }
+  }
 }
 
 .user-profile__tweets-wrapper {
   display: grid;
   grid-gap: 10px;
+
+  .user-profile__create-tweet {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    border-top: 1px solid #dfe3e8;
+  }
+
+  .user-profile__create-tweet-type {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
 }
 
-.user-profile__create-tweet {
-  display: flex;
-  flex-direction: column;
-  padding-top: 20px;
-  border-top: 1px solid #dfe3e8;
-}
 
-.user-profile__create-tweet-type {
-  padding-top: 10px ;
-  padding-bottom: 10px ;
-}
 </style>
