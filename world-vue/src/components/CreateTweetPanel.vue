@@ -1,23 +1,23 @@
 <template>
   <form class="create-tweet-panel"
         @submit.prevent="createNewTweet"
-        :class="{'--exceeded' : getCharacterCount > 180} ">
+        :class="{'--exceeded' : newTweetCharacterCount > 180} ">
 
     <label for="newTweet"><strong>New Tweet</strong>
-      ({{ getCharacterCount }}/180)
+      ({{ newTweetCharacterCount }}/180)
     </label>
 
     <textarea id="newTweet"
               rows="4"
-              v-model="newTweetContent"/>
+              v-model="state.newTweetContent"/>
 
     <div class="create-tweet-panel__submit">
       <div class="create-tweet-type">
         <label for="tweetType"><strong>Type: </strong></label>
 
-        <select id="tweetType" v-model="selectedTweetType">
+        <select id="tweetType" v-model="state.selectedTweetType">
           <option :value="item.value"
-                  v-for="(item,index) in tweetTypes"
+                  v-for="(item,index) in state.tweetTypes"
                   :key="index">
             {{ item.name }}
           </option>
@@ -30,31 +30,34 @@
 </template>
 
 <script>
+import {reactive, computed} from 'vue';
+
 export default {
   name: "CreateTweetPanel",
-  data() {
-    return {
+
+
+  setup(props,context) {
+    const state = reactive({
       newTweetContent: '',
       selectedTweetType: 'instant',
       tweetTypes: [
         {value: 'draft', name: 'Tweet Draft'},
         {value: 'instant', name: 'Tweet Instant'}
       ]
-    }
-  },
-  computed: {
-    getCharacterCount() {
-      return this.newTweetContent.length;
-    }
-  },
-  methods: {
-    createNewTweet() {
-      if (this.newTweetContent && this.selectedTweetType !== 'draft') {
-        this.$emit('add-tweet', this.newTweetContent)
+    })
+
+    const newTweetCharacterCount = computed(
+        () => state.newTweetContent.length);
+
+    function createNewTweet() {
+      if (state.newTweetContent && state.selectedTweetType !== 'draft') {
+        context.emit('add-tweet', state.newTweetContent);
       }
-      this.newTweetContent = ''
+      state.newTweetContent = '';
     }
-  }
+
+    return {state, newTweetCharacterCount,createNewTweet};
+  },
 }
 </script>
 
@@ -78,7 +81,7 @@ export default {
     .create-tweet-type {
       padding: 20px 0;
 
-      select{
+      select {
         cursor: pointer;
       }
 

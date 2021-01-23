@@ -49,11 +49,5 @@ export default {
   .tweet-item__user {
     font-weight: bold;
   }
-
 }
-
-
-
-
-
 </style>

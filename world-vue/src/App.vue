@@ -1,29 +1,33 @@
 <template>
   <div id="app">
     <nav>
-      <div class="navigation-logo">
-        World Vue
-      </div>
+      <router-link to="/">
+        <div class="navigation-logo">
+          World Vue
+        </div>
+      </router-link>
+
       <div class="navigation-user">
-        {{ user.username }}
+        {{ state.user.username }}
       </div>
     </nav>
-    <UserProfile/>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import UserProfile from "./components/UserProfile";
+import {reactive} from 'vue'
 
 export default {
   name: 'App',
-  components: {UserProfile},
-  data() {
-    return {
+  setup() {
+    const state = reactive({
       user: {
         username: "_Muhamed Salama"
       }
-    }
+    });
+
+    return {state};
   }
 }
 </script>
@@ -54,6 +58,5 @@ nav {
   .navigation-user {
     font-weight: bold;
   }
-
 }
 </style>
